@@ -4,13 +4,15 @@ namespace Containers.Models;
 
 public abstract class Container
 {
-    private static int number = 0;
+    private static int _number = 0;
     public double CargoMass { get; set; }
     public double MaxCargoMass { get; set; }
     public double Height { get; set; }
     public double OwnWeight { get; set; }
     public double Depth { get; set; }
-    protected string SerialNumber { get; }
+    public string SerialNumber { get; }
+
+    public double GrossWeight => OwnWeight + CargoMass;
 
     protected Container(double cargoMass, double height, double ownWeight, double depth, char typeOfContainer)
     {
@@ -18,7 +20,7 @@ public abstract class Container
         Height = height;
         OwnWeight = ownWeight;
         Depth = depth;
-        SerialNumber = "KON-" + typeOfContainer + "-" + (++number);
+        SerialNumber = "KON-" + typeOfContainer + "-" + (++_number);
     }
 
     public virtual void UnloadCargo()
@@ -28,11 +30,17 @@ public abstract class Container
 
     public virtual void LoadCargo(double cargoMass)
     {
-        if (cargoMass > CargoMass)
+        if (cargoMass > MaxCargoMass)
         {
             throw new OverfillException();
         }
 
         CargoMass = cargoMass;
+    }
+
+    public override string ToString()
+    {
+        return
+            $"Serial no.: {SerialNumber}, Cargo mass: {CargoMass}, Max cargo mass: {MaxCargoMass}, Height: {Height}, Depth: {Depth}, Own weight: {OwnWeight}";
     }
 }

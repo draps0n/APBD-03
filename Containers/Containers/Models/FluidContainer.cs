@@ -27,4 +27,9 @@ public class FluidContainer : Container, IHazardNotifier
     {
         Console.WriteLine("Dangerous situation with container no. " + SerialNumber + "!!");
     }
+    
+    public override string ToString()
+    {
+        return "[Container type: G, " + base.ToString() + $", Is cargo hazardous: {IsCargoHazardous}]";
+    }
 }

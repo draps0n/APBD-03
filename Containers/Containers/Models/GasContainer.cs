@@ -20,4 +20,9 @@ public class GasContainer : Container, IHazardNotifier
     {
         Console.WriteLine("Dangerous situation with container no. " + SerialNumber + "!!");
     }
+
+    public override string ToString()
+    {
+        return "[Container type: G, " + base.ToString() + $", Pressure: {Pressure}]";
+    }
 }

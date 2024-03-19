@@ -38,4 +38,9 @@ public class RefrigeratedContainer : Container, IHazardNotifier
     {
         Console.WriteLine("Dangerous situation with container no. " + SerialNumber + "!!");
     }
+    
+    public override string ToString()
+    {
+        return "[Container type: G, " + base.ToString() + $", Type of product: {StoredProduct}, Temperature inside: {InsideTemp}]";
+    }
 }
