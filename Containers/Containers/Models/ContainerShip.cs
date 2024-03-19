@@ -1,8 +1,12 @@
-﻿namespace Containers.Models;
+﻿using System.Text;
+
+namespace Containers.Models;
 
 public class ContainerShip
 {
-    public List<Container> Containers { get; set; }
+    private static int _number = 0;
+    private int Id { get; }
+    public List<Container> Cargo { get; set; }
     public double MaxSpeed { get; set; }
     public int MaxContainersAmount { get; set; }
     public double MaxContainersWeight { get; set; }
@@ -11,7 +15,8 @@ public class ContainerShip
 
     public ContainerShip(double maxSpeed, int maxContainersAmount, double maxContainersWeight)
     {
-        Containers = new List<Container>(maxContainersAmount);
+        Id = ++_number;
+        Cargo = new List<Container>(maxContainersAmount);
         MaxSpeed = maxSpeed;
         MaxContainersAmount = maxContainersAmount;
         MaxContainersWeight = maxContainersWeight;
@@ -19,7 +24,8 @@ public class ContainerShip
 
     public void LoadContainer(Container container)
     {
-        Containers.Add(container);
+        Cargo.Add(container);
+        container.LoadedOn = this;
         ContainersAmount++;
         ContainersWeight += container.GrossWeight;
     }
@@ -34,7 +40,8 @@ public class ContainerShip
 
     public Container UnloadContainer(Container container)
     {
-        Containers.Remove(container);
+        Cargo.Remove(container);
+        container.LoadedOn = null;
         ContainersAmount--;
         ContainersWeight -= container.GrossWeight;
         return container;
@@ -43,9 +50,9 @@ public class ContainerShip
     public void SwapContainers(string serialNumberOnShip, Container container)
     {
         var idx = -1;
-        for (var i = 0; i < Containers.Count; i++)
+        for (var i = 0; i < Cargo.Count; i++)
         {
-            if (Containers[i].SerialNumber == serialNumberOnShip)
+            if (Cargo[i].SerialNumber == serialNumberOnShip)
             {
                 idx = i;
             }
@@ -56,16 +63,16 @@ public class ContainerShip
             throw new ArgumentException("No such container on ship!");
         }
 
-        UnloadContainer(Containers[idx]);
+        UnloadContainer(Cargo[idx]);
         LoadContainer(container);
     }
 
     public static void TransferContainers(ContainerShip fromShip, ContainerShip toShip, string containerSerialNo)
     {
         var idx = -1;
-        for (var i = 0; i < fromShip.Containers.Count; i++)
+        for (var i = 0; i < fromShip.Cargo.Count; i++)
         {
-            if (fromShip.Containers[i].SerialNumber == containerSerialNo)
+            if (fromShip.Cargo[i].SerialNumber == containerSerialNo)
             {
                 idx = i;
             }
@@ -76,14 +83,23 @@ public class ContainerShip
             throw new ArgumentException("No such container on ship!");
         }
 
-        var unloaded = fromShip.UnloadContainer(fromShip.Containers[idx]);
+        var unloaded = fromShip.UnloadContainer(fromShip.Cargo[idx]);
         toShip.LoadContainer(unloaded);
     }
 
     public override string ToString()
     {
-        return
-            $"[Max speed: {MaxSpeed}, Containers amount {ContainersAmount}, Max containers amount: {MaxContainersAmount}, " +
-            $"Containers Weight {MaxContainersWeight}, Max containers Weight: {MaxContainersWeight}, Loaded cargo: {Containers}]";
+        // return
+        //     $"[Max speed: {MaxSpeed} knots, Containers amount: {ContainersAmount}, Max containers amount: {MaxContainersAmount}, " +
+        //     $"Containers weight: {ContainersWeight} kg, Max containers weight: {MaxContainersWeight} t, Loaded cargo: [{string.Join(", ", Containers)}]]";
+        var tmp = $"Statek {Id} (speed={MaxSpeed}, maxContainerNum={MaxContainersAmount}, maxWeight={MaxContainersWeight}, cargo=[";
+
+        foreach (var container in Cargo)
+        {
+            tmp += container.SerialNumber + ", ";
+        }
+
+        tmp += "])";
+        return tmp;
     }
 }

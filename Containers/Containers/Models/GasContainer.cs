@@ -6,9 +6,10 @@ public class GasContainer : Container, IHazardNotifier
 {
     private double Pressure { get; set; }
     
-    public GasContainer(double cargoMass, double height, double ownWeight, double depth) : base(
-        cargoMass, height, ownWeight, depth, 'G')
+    public GasContainer(double maxCargoMass, double height, double ownWeight, double depth) : base(
+        maxCargoMass, height, ownWeight, depth, 'G')
     {
+        Pressure = new Random().Next(1, 10);
     }
 
     public override void UnloadCargo()
@@ -23,6 +24,6 @@ public class GasContainer : Container, IHazardNotifier
 
     public override string ToString()
     {
-        return "[Container type: G, " + base.ToString() + $", Pressure: {Pressure}]";
+        return base.ToString() + $", pressure={Pressure}atm)";
     }
 }

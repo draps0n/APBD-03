@@ -6,8 +6,8 @@ public class FluidContainer : Container, IHazardNotifier
 {
     private bool IsCargoHazardous { get; set; }
 
-    public FluidContainer(double cargoMass, double height, double ownWeight, double depth, bool isCargoHazardous)
-        : base(cargoMass, height, ownWeight, depth, 'L')
+    public FluidContainer(double maxCargoMass, double height, double ownWeight, double depth, bool isCargoHazardous)
+        : base(maxCargoMass, height, ownWeight, depth, 'L')
     {
         IsCargoHazardous = isCargoHazardous;
     }
@@ -15,7 +15,7 @@ public class FluidContainer : Container, IHazardNotifier
     public override void LoadCargo(double cargoMass)
     {
         var maxCapacity = IsCargoHazardous ? 0.5 : 0.9;
-        if (cargoMass > maxCapacity * CargoMass)
+        if (cargoMass > maxCapacity * MaxCargoMass)
         {
             SendHazardWarning();
         }
@@ -30,6 +30,6 @@ public class FluidContainer : Container, IHazardNotifier
     
     public override string ToString()
     {
-        return "[Container type: G, " + base.ToString() + $", Is cargo hazardous: {IsCargoHazardous}]";
+        return base.ToString() + $", isCargoHazardous={IsCargoHazardous})";
     }
 }

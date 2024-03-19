@@ -22,8 +22,8 @@ public class RefrigeratedContainer : Container, IHazardNotifier
     public Product StoredProduct { get; set; }
     public double InsideTemp { get; set; }
 
-    public RefrigeratedContainer(double cargoMass, double height, double ownWeight, double depth, char typeOfContainer,
-        Product storedProduct, double insideTemp) : base(cargoMass, height, ownWeight, depth, typeOfContainer)
+    public RefrigeratedContainer(double maxCargoMass, double height, double ownWeight, double depth,
+        Product storedProduct, double insideTemp) : base(maxCargoMass, height, ownWeight, depth, 'C')
     {
         if (insideTemp < (int) storedProduct)
         {
@@ -41,6 +41,6 @@ public class RefrigeratedContainer : Container, IHazardNotifier
     
     public override string ToString()
     {
-        return "[Container type: G, " + base.ToString() + $", Type of product: {StoredProduct}, Temperature inside: {InsideTemp}]";
+        return base.ToString() + $", typeOfProduct={StoredProduct}, insideTemp={InsideTemp}C)";
     }
 }

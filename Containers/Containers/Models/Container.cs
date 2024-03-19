@@ -2,9 +2,10 @@
 
 namespace Containers.Models;
 
-public abstract class Container
+public abstract class Container : IEquatable<Container>
 {
     private static int _number = 0;
+    public ContainerShip? LoadedOn { get; set; }
     public double CargoMass { get; set; }
     public double MaxCargoMass { get; set; }
     public double Height { get; set; }
@@ -14,9 +15,10 @@ public abstract class Container
 
     public double GrossWeight => OwnWeight + CargoMass;
 
-    protected Container(double cargoMass, double height, double ownWeight, double depth, char typeOfContainer)
+    protected Container(double maxCargoMass, double height, double ownWeight, double depth, char typeOfContainer)
     {
-        CargoMass = cargoMass;
+        CargoMass = 0;
+        MaxCargoMass = maxCargoMass;
         Height = height;
         OwnWeight = ownWeight;
         Depth = depth;
@@ -41,6 +43,27 @@ public abstract class Container
     public override string ToString()
     {
         return
-            $"Serial no.: {SerialNumber}, Cargo mass: {CargoMass}, Max cargo mass: {MaxCargoMass}, Height: {Height}, Depth: {Depth}, Own weight: {OwnWeight}";
+            $"serialNo={SerialNumber} (cargoMass={CargoMass}kg, maxCargoMass={MaxCargoMass}kg, height={Height}cm, depth={Depth}cm, ownWeight={OwnWeight}kg";
+        
+    }
+
+    public bool Equals(Container? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return SerialNumber == other.SerialNumber;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((Container)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return SerialNumber.GetHashCode();
     }
 }
