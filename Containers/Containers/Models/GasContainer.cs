@@ -5,7 +5,7 @@ namespace Containers.Models;
 public class GasContainer : Container, IHazardNotifier
 {
     private double Pressure { get; set; }
-    
+
     public GasContainer(double maxCargoMass, double height, double ownWeight, double depth) : base(
         maxCargoMass, height, ownWeight, depth, 'G')
     {

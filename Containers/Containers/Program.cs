@@ -71,7 +71,8 @@ public class Program
 
     public static void PrintLists()
     {
-        Console.WriteLine("\nLista kontenerowców:");
+        Console.WriteLine("TESTY POWYŻEJ - TUI NIE JEST ZAIMPLEMENTOWANE - SAM SZKIELET");
+        Console.WriteLine("Lista kontenerowców:");
         if (_containerShips.Count == 0)
         {
             Console.WriteLine("Brak");
@@ -156,7 +157,6 @@ public class Program
         ContainerShip.TransferContainers(containerShip, cs2, gasContainer.SerialNumber);
         Console.WriteLine(containerShip);
         Console.WriteLine(cs2);
-        Console.WriteLine("\n\n");
     }
 
     private static void AddContainerShip()
@@ -212,6 +212,8 @@ public class Program
     public static Dictionary<int, string> PrintPossibleActions()
     {
         Console.WriteLine("Mozliwe akcje:");
+        Console.WriteLine("0. Wyjdz");
+        
         var number = 0;
         var actions = new Dictionary<int, string>();
         Console.WriteLine(++number + ". Dodaj kontenerowiec");

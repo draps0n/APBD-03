@@ -4,7 +4,7 @@ namespace Containers.Models;
 
 public class FluidContainer : Container, IHazardNotifier
 {
-    private bool IsCargoHazardous { get; set; }
+    public bool IsCargoHazardous { get; set; }
 
     public FluidContainer(double maxCargoMass, double height, double ownWeight, double depth, bool isCargoHazardous)
         : base(maxCargoMass, height, ownWeight, depth, 'L')
